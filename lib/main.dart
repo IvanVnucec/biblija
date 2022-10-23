@@ -14,21 +14,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Biblija'),
+      home: const HomePage(title: 'Biblija'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _ListaKnjiga();
+  State<HomePage> createState() => _ListaKnjiga();
 }
 
-class _ListaKnjiga extends State<MyHomePage> {
+class _ListaKnjiga extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
