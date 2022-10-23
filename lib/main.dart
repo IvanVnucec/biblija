@@ -29,15 +29,20 @@ class HomePage extends StatefulWidget {
 }
 
 class ListaKnjiga extends State<HomePage> {
+  List<Widget> dohvatiListuKnjiga() {
+    return const [
+      Knjiga(title: 'Knjiga 1'),
+      Knjiga(title: 'Knjiga 2'),
+      Knjiga(title: 'Knjiga 3'),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> listaKnjiga = dohvatiListuKnjiga();
     return Scaffold(
       appBar: AppBar(title: const Text("Knjige")),
-      body: ListView(children: const [
-        Knjiga(title: 'Knjiga 1'),
-        Knjiga(title: 'Knjiga 2'),
-        Knjiga(title: 'Knjiga 3'),
-      ]),
+      body: ListView(children: listaKnjiga),
     );
   }
 }
@@ -81,15 +86,21 @@ class ListaPoglavlja extends StatelessWidget {
 
   const ListaPoglavlja({super.key, required this.title});
 
+  List<Widget> dohvatiListuPoglavlja() {
+    return const [
+      Poglavlje(title: 'Poglavlje 1'),
+      Poglavlje(title: 'Poglavlje 2'),
+      Poglavlje(title: 'Poglavlje 3'),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> listaPoglavlja = dohvatiListuPoglavlja();
+
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: ListView(children: const [
-        Poglavlje(title: 'Poglavlje 1'),
-        Poglavlje(title: 'Poglavlje 2'),
-        Poglavlje(title: 'Poglavlje 3'),
-      ]),
+      body: ListView(children: listaPoglavlja),
     );
   }
 }
@@ -99,10 +110,14 @@ class PregledPoglavlja extends StatelessWidget {
 
   const PregledPoglavlja({super.key, required this.title});
 
+  Text dohvatiTekstPoglavlja() {
+    return const Text("Text poglavlja");
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: const Text("Text poglavlja."));
+    Text tekstPoglavlja = dohvatiTekstPoglavlja();
+
+    return Scaffold(appBar: AppBar(title: Text(title)), body: tekstPoglavlja);
   }
 }
