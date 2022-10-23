@@ -25,10 +25,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _ListaKnjiga();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _ListaKnjiga extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,26 +52,25 @@ class _Knjiga extends StatelessWidget {
     return ListTile(
       title: Text(title),
       onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: ((context) => _ListaPoglavlja(title: title))));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: ((context) => _ListaPoglavlja(title: title))));
       },
     );
   }
 }
 
-class _MyListTile extends StatelessWidget {
+class _Poglavlje extends StatelessWidget {
   final String title;
-  final Widget onTapWidget;
 
-  const _MyListTile({required this.title, required this.onTapWidget});
+  const _Poglavlje({required this.title});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title),
       onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: ((context) => onTapWidget)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: ((context) => _PregledPoglavlja(title: title))));
       },
     );
   }
@@ -86,21 +85,24 @@ class _ListaPoglavlja extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: ListView(children: [
-        _MyListTile(title: 'Poglavlje 1', onTapWidget: _Poglavlje(),),
-        _MyListTile(title: 'Poglavlje 2', onTapWidget: _Poglavlje(),),
-        _MyListTile(title: 'Poglavlje 3', onTapWidget: _Poglavlje(),),
+      body: ListView(children: const [
+        _Poglavlje(title: 'Poglavlje 1'),
+        _Poglavlje(title: 'Poglavlje 2'),
+        _Poglavlje(title: 'Poglavlje 3'),
       ]),
     );
   }
 }
 
-class _Poglavlje extends StatelessWidget {
+class _PregledPoglavlja extends StatelessWidget {
+  final String title;
+
+  const _PregledPoglavlja({required this.title});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Poglavlje")),
-      body: const Text("Text poglavlja.")
-    );
+        appBar: AppBar(title: Text(title)),
+        body: const Text("Text poglavlja."));
   }
 }
