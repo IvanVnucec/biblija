@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,27 +25,27 @@ class HomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<HomePage> createState() => _ListaKnjiga();
+  State<HomePage> createState() => ListaKnjiga();
 }
 
-class _ListaKnjiga extends State<HomePage> {
+class ListaKnjiga extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Knjige")),
       body: ListView(children: const [
-        _Knjiga(title: 'Knjiga 1'),
-        _Knjiga(title: 'Knjiga 2'),
-        _Knjiga(title: 'Knjiga 3'),
+        Knjiga(title: 'Knjiga 1'),
+        Knjiga(title: 'Knjiga 2'),
+        Knjiga(title: 'Knjiga 3'),
       ]),
     );
   }
 }
 
-class _Knjiga extends StatelessWidget {
+class Knjiga extends StatelessWidget {
   final String title;
 
-  const _Knjiga({required this.title});
+  const Knjiga({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +53,16 @@ class _Knjiga extends StatelessWidget {
       title: Text(title),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: ((context) => _ListaPoglavlja(title: title))));
+            builder: ((context) => ListaPoglavlja(title: title))));
       },
     );
   }
 }
 
-class _Poglavlje extends StatelessWidget {
+class Poglavlje extends StatelessWidget {
   final String title;
 
-  const _Poglavlje({required this.title});
+  const Poglavlje({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -70,34 +70,34 @@ class _Poglavlje extends StatelessWidget {
       title: Text(title),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: ((context) => _PregledPoglavlja(title: title))));
+            builder: ((context) => PregledPoglavlja(title: title))));
       },
     );
   }
 }
 
-class _ListaPoglavlja extends StatelessWidget {
+class ListaPoglavlja extends StatelessWidget {
   final String title;
 
-  const _ListaPoglavlja({required this.title});
+  const ListaPoglavlja({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: ListView(children: const [
-        _Poglavlje(title: 'Poglavlje 1'),
-        _Poglavlje(title: 'Poglavlje 2'),
-        _Poglavlje(title: 'Poglavlje 3'),
+        Poglavlje(title: 'Poglavlje 1'),
+        Poglavlje(title: 'Poglavlje 2'),
+        Poglavlje(title: 'Poglavlje 3'),
       ]),
     );
   }
 }
 
-class _PregledPoglavlja extends StatelessWidget {
+class PregledPoglavlja extends StatelessWidget {
   final String title;
 
-  const _PregledPoglavlja({required this.title});
+  const PregledPoglavlja({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
