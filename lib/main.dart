@@ -33,11 +33,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Knjige")),
-      body: ListView(children: [
-        _MyListTile(title: 'Knjiga 1', onTapWidget: _ListaPoglavlja(),),
-        _MyListTile(title: 'Knjiga 2', onTapWidget: _ListaPoglavlja(),),
-        _MyListTile(title: 'Knjiga 3', onTapWidget: _ListaPoglavlja(),),
+      body: ListView(children: const [
+        _Knjiga(title: 'Knjiga 1'),
+        _Knjiga(title: 'Knjiga 2'),
+        _Knjiga(title: 'Knjiga 3'),
       ]),
+    );
+  }
+}
+
+class _Knjiga extends StatelessWidget {
+  final String title;
+
+  const _Knjiga({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: ((context) => _ListaPoglavlja(title: title))));
+      },
     );
   }
 }
@@ -61,10 +78,14 @@ class _MyListTile extends StatelessWidget {
 }
 
 class _ListaPoglavlja extends StatelessWidget {
+  final String title;
+
+  const _ListaPoglavlja({required this.title});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Poglavlja")),
+      appBar: AppBar(title: Text(title)),
       body: ListView(children: [
         _MyListTile(title: 'Poglavlje 1', onTapWidget: _Poglavlje(),),
         _MyListTile(title: 'Poglavlje 2', onTapWidget: _Poglavlje(),),
