@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -105,19 +107,73 @@ class ListaPoglavlja extends StatelessWidget {
   }
 }
 
-class PregledPoglavlja extends StatelessWidget {
+class PregledPoglavlja extends StatefulWidget {
   final String title;
 
   const PregledPoglavlja({super.key, required this.title});
 
-  Text dohvatiTekstPoglavlja() {
-    return const Text("Text poglavlja");
+  @override
+  State<PregledPoglavlja> createState() => _PregledPoglavljaState();
+}
+
+class _PregledPoglavljaState extends State<PregledPoglavlja> {
+  Future<String> getJson() async {
+    return DefaultAssetBundle.of(context)
+        .loadString('assets/bible.json')
+        .then((value) => jsonDecode(value)['Amos']['Amos_-_1']);
   }
 
   @override
   Widget build(BuildContext context) {
-    Text tekstPoglavlja = dohvatiTekstPoglavlja();
-
-    return Scaffold(appBar: AppBar(title: Text(title)), body: tekstPoglavlja);
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.title)),
+      body: FutureBuilder<String>(
+        future: getJson(),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          List<Widget> children;
+          if (snapshot.hasData) {
+            children = <Widget>[
+              Expanded(
+                flex: 1,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Text('${snapshot.data}'),
+                ),
+              ),
+            ];
+          } else if (snapshot.hasError) {
+            children = <Widget>[
+              const Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 60,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text('Error: ${snapshot.error}'),
+              ),
+            ];
+          } else {
+            children = const <Widget>[
+              SizedBox(
+                width: 60,
+                height: 60,
+                child: CircularProgressIndicator(),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: Text('Awaiting result...'),
+              ),
+            ];
+          }
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: children,
+            ),
+          );
+        },
+      ),
+    );
   }
 }
