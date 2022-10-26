@@ -40,6 +40,7 @@ class HomePageState extends State<HomePage> {
           .toList(growable: false)
           .map((name) => Knjiga(
                 title: name,
+                poglavlja: jsonObject[name],
               ))
           .toList();
     });
@@ -70,8 +71,9 @@ class HomePageState extends State<HomePage> {
 
 class Knjiga extends StatelessWidget {
   final String title;
+  final Map<String, dynamic> poglavlja;
 
-  const Knjiga({super.key, required this.title});
+  const Knjiga({super.key, required this.title, required this.poglavlja});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,8 @@ class Knjiga extends StatelessWidget {
       title: Text(title),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: ((context) => ListaPoglavlja(title: title))));
+            builder: ((context) =>
+                ListaPoglavlja(title: title, poglavlja: poglavlja))));
       },
     );
   }
@@ -87,8 +90,9 @@ class Knjiga extends StatelessWidget {
 
 class Poglavlje extends StatelessWidget {
   final String title;
+  final String content;
 
-  const Poglavlje({super.key, required this.title});
+  const Poglavlje({super.key, required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +100,8 @@ class Poglavlje extends StatelessWidget {
       title: Text(title),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: ((context) => PregledPoglavlja(title: title))));
+            builder: ((context) =>
+                PregledPoglavlja(title: title, content: content))));
       },
     );
   }
@@ -104,15 +109,19 @@ class Poglavlje extends StatelessWidget {
 
 class ListaPoglavlja extends StatelessWidget {
   final String title;
+  final Map<String, dynamic> poglavlja;
 
-  const ListaPoglavlja({super.key, required this.title});
+  const ListaPoglavlja(
+      {super.key, required this.title, required this.poglavlja});
 
   List<Widget> dohvatiListuPoglavlja() {
-    return const [
-      Poglavlje(title: 'Poglavlje 1'),
-      Poglavlje(title: 'Poglavlje 2'),
-      Poglavlje(title: 'Poglavlje 3'),
-    ];
+    return poglavlja.keys
+        .toList(growable: false)
+        .map((name) => Poglavlje(
+              title: name,
+              content: poglavlja[name],
+            ))
+        .toList();
   }
 
   @override
@@ -126,73 +135,18 @@ class ListaPoglavlja extends StatelessWidget {
   }
 }
 
-class PregledPoglavlja extends StatefulWidget {
+class PregledPoglavlja extends StatelessWidget {
   final String title;
+  final String content;
 
-  const PregledPoglavlja({super.key, required this.title});
-
-  @override
-  State<PregledPoglavlja> createState() => _PregledPoglavljaState();
-}
-
-class _PregledPoglavljaState extends State<PregledPoglavlja> {
-  Future<String> getJson() async {
-    return DefaultAssetBundle.of(context)
-        .loadString('assets/bible.json')
-        .then((value) => jsonDecode(value)['Amos']['Amos_-_1']);
-  }
+  const PregledPoglavlja(
+      {super.key, required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: FutureBuilder<String>(
-        future: getJson(),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          List<Widget> children;
-          if (snapshot.hasData) {
-            children = <Widget>[
-              Expanded(
-                flex: 1,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Text('${snapshot.data}'),
-                ),
-              ),
-            ];
-          } else if (snapshot.hasError) {
-            children = <Widget>[
-              const Icon(
-                Icons.error_outline,
-                color: Colors.red,
-                size: 60,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Error: ${snapshot.error}'),
-              ),
-            ];
-          } else {
-            children = const <Widget>[
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              ),
-            ];
-          }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: children,
-            ),
-          );
-        },
-      ),
+      appBar: AppBar(title: Text(title)),
+      body: Text(content),
     );
   }
 }
