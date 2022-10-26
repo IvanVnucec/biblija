@@ -27,24 +27,43 @@ class HomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<HomePage> createState() => ListaKnjiga();
+  State<HomePage> createState() => HomePageState();
 }
 
-class ListaKnjiga extends State<HomePage> {
-  List<Widget> dohvatiListuKnjiga() {
-    return const [
-      Knjiga(title: 'Knjiga 1'),
-      Knjiga(title: 'Knjiga 2'),
-      Knjiga(title: 'Knjiga 3'),
-    ];
+class HomePageState extends State<HomePage> {
+  Future<List<Widget>> dohvatiListuKnjiga() {
+    return DefaultAssetBundle.of(context)
+        .loadString('assets/bible.json')
+        .then((jsonResponse) {
+      Map<String, dynamic> jsonObject = jsonDecode(jsonResponse);
+      return jsonObject.keys
+          .toList(growable: false)
+          .map((name) => Knjiga(
+                title: name,
+              ))
+          .toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> listaKnjiga = dohvatiListuKnjiga();
     return Scaffold(
       appBar: AppBar(title: const Text("Knjige")),
-      body: ListView(children: listaKnjiga),
+      body: FutureBuilder<List<Widget>>(
+        future: dohvatiListuKnjiga(),
+        builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+          List<Widget> children = [];
+
+          if (snapshot.hasData) {
+            children = snapshot.data!;
+          } else if (snapshot.hasError) {
+          } else {}
+
+          return ListView(
+            children: children,
+          );
+        },
+      ),
     );
   }
 }
