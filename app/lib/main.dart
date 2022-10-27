@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 void main() {
   runApp(const App());
@@ -146,7 +147,7 @@ class PregledPoglavlja extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: SingleChildScrollView(child: Text(content)),
+      body: SingleChildScrollView(child: Html(data: content)),
     );
   }
 }
