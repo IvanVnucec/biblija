@@ -142,7 +142,7 @@ class ListaPoglavlja extends StatelessWidget {
   }
 }
 
-class PregledPoglavlja extends StatelessWidget {
+class PregledPoglavlja extends StatefulWidget {
   final String title;
   final Map<String, dynamic> poglavlja;
   final List<String> poglavljaKeys;
@@ -151,19 +151,38 @@ class PregledPoglavlja extends StatelessWidget {
       : poglavljaKeys = poglavlja.keys.toList(growable: false);
 
   @override
+  State<PregledPoglavlja> createState() => _PregledPoglavljaState();
+}
+
+class _PregledPoglavljaState extends State<PregledPoglavlja> {
+  String _title = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _title = widget.title;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final PageController controller =
-        PageController(initialPage: poglavljaKeys.indexOf(title));
+        PageController(initialPage: widget.poglavljaKeys.indexOf(widget.title));
 
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(title: Text(_title)),
       body: PageView.builder(
-        controller: controller,
-        itemCount: poglavljaKeys.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => SingleChildScrollView(
-            child: HtmlWidget(poglavlja[poglavljaKeys[index]])),
-      ),
+          onPageChanged: (value) {
+            setState(() {
+              _title = widget.poglavljaKeys[value];
+            });
+          },
+          controller: controller,
+          itemCount: widget.poglavljaKeys.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: HtmlWidget(widget.poglavlja[_title]));
+          }),
     );
   }
 }
