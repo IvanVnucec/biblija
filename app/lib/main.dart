@@ -93,9 +93,9 @@ class Knjiga extends StatelessWidget {
 
 class Poglavlje extends StatelessWidget {
   final String title;
-  final String content;
+  final Map<String, dynamic> poglavlja;
 
-  const Poglavlje({super.key, required this.title, required this.content});
+  const Poglavlje({super.key, required this.title, required this.poglavlja});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class Poglavlje extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: ((context) =>
-                PregledPoglavlja(title: title, content: content))));
+                PregledPoglavlja(title: title, poglavlja: poglavlja))));
       },
     );
   }
@@ -122,7 +122,7 @@ class ListaPoglavlja extends StatelessWidget {
         .toList(growable: false)
         .map((name) => Poglavlje(
               title: name,
-              content: poglavlja[name],
+              poglavlja: poglavlja,
             ))
         .toList();
   }
@@ -144,22 +144,25 @@ class ListaPoglavlja extends StatelessWidget {
 
 class PregledPoglavlja extends StatelessWidget {
   final String title;
-  final String content;
+  final Map<String, dynamic> poglavlja;
+  final List<String> poglavljaKeys;
 
-  const PregledPoglavlja(
-      {super.key, required this.title, required this.content});
+  PregledPoglavlja({super.key, required this.title, required this.poglavlja})
+      : poglavljaKeys = poglavlja.keys.toList(growable: false);
 
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController();
+    final PageController controller =
+        PageController(initialPage: poglavljaKeys.indexOf(title));
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: PageView.builder(
         controller: controller,
+        itemCount: poglavljaKeys.length,
         scrollDirection: Axis.horizontal,
-        // TODO
-        itemBuilder: (context, index) => SingleChildScrollView(child: HtmlWidget(content)),
+        itemBuilder: (context, index) => SingleChildScrollView(
+            child: HtmlWidget(poglavlja[poglavljaKeys[index]])),
       ),
     );
   }
