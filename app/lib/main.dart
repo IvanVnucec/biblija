@@ -146,7 +146,7 @@ class PregledPoglavlja extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Text(content),
+      body: SingleChildScrollView(child: Text(content)),
     );
   }
 }
