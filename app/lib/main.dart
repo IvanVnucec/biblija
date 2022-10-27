@@ -181,7 +181,9 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return SingleChildScrollView(
-                child: HtmlWidget(widget.poglavlja[_title]));
+                child: Container(
+                    margin: const EdgeInsets.all(8.0),
+                    child: HtmlWidget(widget.poglavlja[_title])));
           }),
     );
   }
