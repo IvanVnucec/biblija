@@ -151,9 +151,16 @@ class PregledPoglavlja extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PageController controller = PageController();
+
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: SingleChildScrollView(child: HtmlWidget(content)),
+      body: PageView.builder(
+        controller: controller,
+        scrollDirection: Axis.horizontal,
+        // TODO
+        itemBuilder: (context, index) => SingleChildScrollView(child: HtmlWidget(content)),
+      ),
     );
   }
 }
