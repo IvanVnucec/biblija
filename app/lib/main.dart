@@ -183,13 +183,11 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
             return SingleChildScrollView(
                 child: Container(
                     margin: const EdgeInsets.all(8.0),
-                    child: Html(
+                    child: SelectableHtml(
                       data: widget.poglavlja[_title],
                       style: {
-                        "span": Style(
-                          verticalAlign: VerticalAlign.sup,
-                          fontSize: FontSize.small,
-                        )
+                        // TODO: add verticalAlign: VerticalAlign.sup, once it is supported
+                        "span": Style(fontSize: FontSize(80, Unit.percent))
                       },
                     )));
           }),
