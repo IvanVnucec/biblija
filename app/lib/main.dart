@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 void main() {
   runApp(const App());
@@ -183,7 +183,15 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
             return SingleChildScrollView(
                 child: Container(
                     margin: const EdgeInsets.all(8.0),
-                    child: HtmlWidget(widget.poglavlja[_title])));
+                    child: Html(
+                      data: widget.poglavlja[_title],
+                      style: {
+                        "span": Style(
+                          verticalAlign: VerticalAlign.sup,
+                          fontSize: FontSize.small,
+                        )
+                      },
+                    )));
           }),
     );
   }
