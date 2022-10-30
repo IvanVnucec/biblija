@@ -17,16 +17,10 @@ BIBLE_PATH = 'bible'
 with open(f"{BIBLE_PATH}/bible.json", 'r', encoding='utf-8') as f:
     data = json.load(f)
 
+# Sort naturally Bible book chapters
 for books in data:
-    book_name = books[0]
-    #print(book_name)
     book_chapters = books[1]
     natural_sort(book_chapters, key=lambda x: x[0])
-    for chapter in book_chapters:
-        chapter_name = chapter[0]
-        #print('\t' + chapter_name)
-        chapter_html = chapter[1][:100]
-        #print("\t\t" + chapter_html)
 
 # Sort Bible books properly
 bible_books_proper_order = [
@@ -110,5 +104,91 @@ for i in range(len(bible_books_proper_order)):
     index = book_names.index(bible_books_proper_order[i])
     bible_proper_sort.append(data[index])
 
+# Rename bible books and chapters properly
+bible_books_proper_names = [
+    "Knjiga Postanka",
+    "Knjiga Izlaska",
+    "Levitski zakonik",
+    "Knjiga Brojeva",
+    "Ponovljeni zakon",
+    "Jošua",
+    "Knjiga o Sucima",
+    "Knjiga o Ruti",
+    "Prva knjiga o Samuelu",
+    "Druga knjiga o Samuelu",
+    "Prva knjiga o Kraljevima",
+    "Druga knjiga o Kraljevima",
+    "Prva Knjiga Ljetopisa",
+    "Druga Knjiga Ljetopisa",
+    "Ezra",
+    "Nehemija",
+    "Tobija",
+    "Judita",
+    "Estera",
+    "Prva knjiga o Makabejcima",
+    "Druga knjiga o Makabejcima",
+    "Knjiga o Jobu",
+    "Psalmi",
+    "Mudre izreke",
+    "Propovjednik",
+    "Pjesma nad pjesmama",
+    "Knjiga Mudrosti",
+    "Knjiga Sirahova",
+    "Izaija",
+    "Jeremija",
+    "Tužaljke",
+    "Baruh",
+    "Ezekiel",
+    "Daniel",
+    "Hošea",
+    "Joel",
+    "Amos",
+    "Obadija",
+    "Jona",
+    "Mihej",
+    "Nahum",
+    "Habakuk",
+    "Sefanija",
+    "Hagaj",
+    "Zaharija",
+    "Malahija",
+    "Evanđelje po Mateju",
+    "Evanđelje po Marku",
+    "Evanđelje po Luki",
+    "Evanđelje po Ivanu",
+    "Djela apostolska",
+    "Poslanica Rimljanima",
+    "Prva poslanica Korinćanima",
+    "Druga poslanica Korinćanima",
+    "Poslanica Galaćanima",
+    "Poslanica Efežanima",
+    "Poslanica Filipljanima",
+    "Poslanica Kološanima",
+    "Prva poslanica Solunjanima",
+    "Druga poslanica Solunjanima",
+    "Prva poslanica Timoteju",
+    "Druga poslanica Timoteju",
+    "Poslanica Titu",
+    "Poslanica Filemonu",
+    "Poslanica Hebrejima",
+    "Jakovljeva poslanica",
+    "Prva Petrova poslanica",
+    "Druga Petrova poslanica",
+    "Prva Ivanova poslanica",
+    "Druga Ivanova poslanica",
+    "Treća Ivanova poslanica",
+    "Poslanica Jude apostola",
+    "Otkrivenje",
+]
+
+for i, book in enumerate(bible_proper_sort):
+    book[0] = bible_books_proper_names[i]
+    #print(book[0])
+    for j, chapter in enumerate(book[1]):
+        chapter[0] = bible_books_proper_names[i] + " - " + str(j+1)
+        #print("\t" + chapter[0])
+
 with open(f"{BIBLE_PATH}/bible.json", 'w', encoding='utf-8') as f:
     json.dump(bible_proper_sort, f, ensure_ascii=False, indent=4)
+
+print("Now you can copy bible.json into Flutter assets folder. ")
