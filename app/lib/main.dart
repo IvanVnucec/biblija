@@ -32,18 +32,18 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  Future<List<Widget>> dohvatiListuKnjiga() {
+  Future<List<Knjiga>> dohvatiListuKnjiga() {
     return DefaultAssetBundle.of(context)
         .loadString('assets/bible.json')
         .then((jsonResponse) {
-      Map<String, dynamic> jsonObject = jsonDecode(jsonResponse);
-      return jsonObject.keys
-          .toList(growable: false)
-          .map((name) => Knjiga(
-                title: name,
-                poglavlja: jsonObject[name],
+      List jsonObject = jsonDecode(jsonResponse);
+      List<Knjiga> knjige = jsonObject
+          .map((item) => Knjiga(
+                title: item[0],
+                poglavlja: item[1],
               ))
           .toList();
+      return knjige;
     });
   }
 
@@ -74,7 +74,7 @@ class HomePageState extends State<HomePage> {
 
 class Knjiga extends StatelessWidget {
   final String title;
-  final Map<String, dynamic> poglavlja;
+  final List poglavlja;
 
   const Knjiga({super.key, required this.title, required this.poglavlja});
 
@@ -93,7 +93,7 @@ class Knjiga extends StatelessWidget {
 
 class Poglavlje extends StatelessWidget {
   final String title;
-  final Map<String, dynamic> poglavlja;
+  final List poglavlja;
 
   const Poglavlje({super.key, required this.title, required this.poglavlja});
 
@@ -112,16 +112,15 @@ class Poglavlje extends StatelessWidget {
 
 class ListaPoglavlja extends StatelessWidget {
   final String title;
-  final Map<String, dynamic> poglavlja;
+  final List poglavlja;
 
   const ListaPoglavlja(
       {super.key, required this.title, required this.poglavlja});
 
-  List<Widget> dohvatiListuPoglavlja() {
-    return poglavlja.keys
-        .toList(growable: false)
-        .map((name) => Poglavlje(
-              title: name,
+  List<Poglavlje> dohvatiListuPoglavlja() {
+    return poglavlja
+        .map((item) => Poglavlje(
+              title: item[0],
               poglavlja: poglavlja,
             ))
         .toList();
@@ -129,7 +128,7 @@ class ListaPoglavlja extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> listaPoglavlja = dohvatiListuPoglavlja();
+    List<Poglavlje> listaPoglavlja = dohvatiListuPoglavlja();
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
@@ -144,11 +143,10 @@ class ListaPoglavlja extends StatelessWidget {
 
 class PregledPoglavlja extends StatefulWidget {
   final String title;
-  final Map<String, dynamic> poglavlja;
-  final List<String> poglavljaKeys;
+  final List poglavlja;
 
-  PregledPoglavlja({super.key, required this.title, required this.poglavlja})
-      : poglavljaKeys = poglavlja.keys.toList(growable: false);
+  const PregledPoglavlja(
+      {super.key, required this.title, required this.poglavlja});
 
   @override
   State<PregledPoglavlja> createState() => _PregledPoglavljaState();
@@ -165,26 +163,27 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
 
   @override
   Widget build(BuildContext context) {
-    final PageController controller =
-        PageController(initialPage: widget.poglavljaKeys.indexOf(widget.title));
+    final PageController controller = PageController(
+        initialPage: widget.poglavlja
+            .indexWhere((element) => element[0] == widget.title));
 
     return Scaffold(
       appBar: AppBar(title: Text(_title)),
       body: PageView.builder(
           onPageChanged: (value) {
             setState(() {
-              _title = widget.poglavljaKeys[value];
+              _title = widget.poglavlja[value][0];
             });
           },
           controller: controller,
-          itemCount: widget.poglavljaKeys.length,
+          itemCount: widget.poglavlja.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return SingleChildScrollView(
                 child: Container(
                     margin: const EdgeInsets.all(8.0),
                     child: SelectableHtml(
-                      data: widget.poglavlja[_title],
+                      data: widget.poglavlja[index][1],
                       style: {
                         // TODO: add verticalAlign: VerticalAlign.sup, once it is supported
                         "span": Style(fontSize: FontSize(80, Unit.percent))

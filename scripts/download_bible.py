@@ -62,13 +62,18 @@ for book in bible.books:
 BIBLE_PATH = 'bible'
 Path(BIBLE_PATH).mkdir(parents=True, exist_ok=True)
 
-bible_ser = {}
+bible_ser = []
 for book in bible.books:
-    print(book.name)
-    chapter_ser = {}
+    chapters_ser = []
     for chapter in book.chapters:
-        chapter_ser[chapter.name] = chapter.html
-        bible_ser[book.name] = chapter_ser
+        chapters_ser.append([chapter.name, chapter.html])
+
+    bible_ser.append([book.name, chapters_ser])
 
 with open(f"{BIBLE_PATH}/bible.json", 'w', encoding='utf-8') as f:
     json.dump(bible_ser, f, ensure_ascii=False, indent=4)
+
+print("Please run format_bible.py to format bible according to\
+    supported format for the Flutter app. Once you do that, \
+    copy bible.json file into assets folder in order to load \
+    it in Flutter app.")
