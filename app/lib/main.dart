@@ -62,10 +62,12 @@ class HomePageState extends State<HomePage> {
           } else if (snapshot.hasError) {
           } else {}
 
-          return ListView.separated(
-            itemCount: children.length,
-            itemBuilder: (context, index) => children[index],
-            separatorBuilder: (context, index) => const Divider(),
+          return Scrollbar(
+            child: ListView.separated(
+              itemCount: children.length,
+              itemBuilder: (context, index) => children[index],
+              separatorBuilder: (context, index) => const Divider(),
+            ),
           );
         },
       ),
@@ -133,10 +135,12 @@ class ListaPoglavlja extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: ListView.separated(
-        itemCount: listaPoglavlja.length,
-        itemBuilder: (context, index) => listaPoglavlja[index],
-        separatorBuilder: (context, index) => const Divider(),
+      body: Scrollbar(
+        child: ListView.separated(
+          itemCount: listaPoglavlja.length,
+          itemBuilder: (context, index) => listaPoglavlja[index],
+          separatorBuilder: (context, index) => const Divider(),
+        ),
       ),
     );
   }
