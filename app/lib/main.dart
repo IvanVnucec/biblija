@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 
 void main() {
   runApp(const App());
@@ -163,18 +164,19 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
 
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController(
+    final PreloadPageController controller = PreloadPageController(
         initialPage: widget.poglavlja
             .indexWhere((element) => element[0] == widget.title));
 
     return Scaffold(
       appBar: AppBar(title: Text(_title)),
-      body: PageView.builder(
+      body: PreloadPageView.builder(
           onPageChanged: (value) {
             setState(() {
               _title = widget.poglavlja[value][0];
             });
           },
+          preloadPagesCount: 3,
           controller: controller,
           itemCount: widget.poglavlja.length,
           scrollDirection: Axis.horizontal,
