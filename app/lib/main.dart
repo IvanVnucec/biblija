@@ -3,30 +3,55 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:preload_page_view/preload_page_view.dart';
+import 'settings/settings_controller.dart';
+import 'settings/settings_service.dart';
+import 'settings/settings_view.dart';
 
-void main() {
-  runApp(const App());
+void main() async {
+  final settingsController = SettingsController(SettingsService());
+  await settingsController.loadSettings();
+
+  runApp(App(settingsController: settingsController));
 }
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final SettingsController settingsController;
+
+  const App({super.key, required this.settingsController});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Biblija',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(title: 'Biblija'),
+    return AnimatedBuilder(
+      animation: settingsController,
+      builder: (context, child) {
+        return MaterialApp(
+          restorationScopeId: 'app',
+          theme: ThemeData(),
+          darkTheme: ThemeData.dark(),
+          themeMode: settingsController.themeMode,
+          onGenerateRoute: (routeSettings) {
+            return MaterialPageRoute(
+              settings: routeSettings,
+              builder: (BuildContext context) {
+                switch (routeSettings.name) {
+                  case SettingsView.routeName:
+                    return SettingsView(controller: settingsController);
+                  default:
+                    return const HomePage();
+                }
+              },
+            );
+          },
+        );
+      },
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  const HomePage({super.key});
 
-  final String title;
+  final String title = 'Biblija';
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -51,7 +76,20 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Knjige")),
+      appBar: AppBar(
+        title: const Text("Knjige"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              // Navigate to the settings page. If the user leaves and returns
+              // to the app after it has been killed while running in the
+              // background, the navigation stack is restored.
+              Navigator.restorablePushNamed(context, SettingsView.routeName);
+            },
+          ),
+        ],
+      ),
       body: FutureBuilder<List<Knjiga>>(
         future: dohvatiListuKnjiga(),
         builder: (BuildContext context, AsyncSnapshot<List<Knjiga>> snapshot) {
