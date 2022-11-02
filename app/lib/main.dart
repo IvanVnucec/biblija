@@ -52,10 +52,10 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Knjige")),
-      body: FutureBuilder<List<Widget>>(
+      body: FutureBuilder<List<Knjiga>>(
         future: dohvatiListuKnjiga(),
-        builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-          List<Widget> children = [];
+        builder: (BuildContext context, AsyncSnapshot<List<Knjiga>> snapshot) {
+          List<Knjiga> children = [];
 
           if (snapshot.hasData) {
             children = snapshot.data!;
