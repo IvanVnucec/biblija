@@ -17,6 +17,8 @@ class SettingsController with ChangeNotifier {
   // also persisting the changes with the SettingsService.
   late ThemeMode _themeMode;
 
+  late double fontSize;
+
   // Allow Widgets to read the user's preferred ThemeMode.
   ThemeMode get themeMode => _themeMode;
 
@@ -25,6 +27,7 @@ class SettingsController with ChangeNotifier {
   /// settings from the service.
   Future<void> loadSettings() async {
     _themeMode = await _settingsService.themeMode();
+    fontSize = await _settingsService.fontSize();
 
     // Important! Inform listeners a change has occurred.
     notifyListeners();

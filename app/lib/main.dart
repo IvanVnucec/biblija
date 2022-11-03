@@ -37,7 +37,7 @@ class App extends StatelessWidget {
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
                   default:
-                    return const HomePage();
+                    return HomePage(controller: settingsController);
                 }
               },
             );
@@ -49,16 +49,18 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.controller});
 
   final String title = 'Biblija';
+  final SettingsController controller;
 
   @override
   State<HomePage> createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {
-  Future<List<Knjiga>> dohvatiListuKnjiga() {
+
+  Future<List<Knjiga>> dohvatiListuKnjiga(SettingsController controller) {
     return DefaultAssetBundle.of(context)
         .loadString('assets/bible.json')
         .then((jsonResponse) {
@@ -67,6 +69,7 @@ class HomePageState extends State<HomePage> {
           .map((item) => Knjiga(
                 title: item[0],
                 poglavlja: item[1],
+                controller: controller
               ))
           .toList();
       return knjige;
@@ -91,7 +94,7 @@ class HomePageState extends State<HomePage> {
         ],
       ),
       body: FutureBuilder<List<Knjiga>>(
-        future: dohvatiListuKnjiga(),
+        future: dohvatiListuKnjiga(widget.controller),
         builder: (BuildContext context, AsyncSnapshot<List<Knjiga>> snapshot) {
           List<Knjiga> children = [];
 
@@ -116,8 +119,13 @@ class HomePageState extends State<HomePage> {
 class Knjiga extends StatelessWidget {
   final String title;
   final List poglavlja;
+  final SettingsController controller;
 
-  const Knjiga({super.key, required this.title, required this.poglavlja});
+  const Knjiga(
+      {super.key,
+      required this.title,
+      required this.poglavlja,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -125,8 +133,8 @@ class Knjiga extends StatelessWidget {
       title: Text(title),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: ((context) =>
-                ListaPoglavlja(title: title, poglavlja: poglavlja))));
+            builder: ((context) => ListaPoglavlja(
+                title: title, poglavlja: poglavlja, controller: controller))));
       },
     );
   }
@@ -135,8 +143,13 @@ class Knjiga extends StatelessWidget {
 class Poglavlje extends StatelessWidget {
   final String title;
   final List poglavlja;
+  final SettingsController controller;
 
-  const Poglavlje({super.key, required this.title, required this.poglavlja});
+  const Poglavlje(
+      {super.key,
+      required this.title,
+      required this.poglavlja,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +157,11 @@ class Poglavlje extends StatelessWidget {
       title: Text(title),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: ((context) =>
-                PregledPoglavlja(title: title, poglavlja: poglavlja))));
+            builder: ((context) => PregledPoglavlja(
+                  title: title,
+                  poglavlja: poglavlja,
+                  controller: controller,
+                ))));
       },
     );
   }
@@ -154,16 +170,18 @@ class Poglavlje extends StatelessWidget {
 class ListaPoglavlja extends StatelessWidget {
   final String title;
   final List poglavlja;
+  final SettingsController controller;
 
   const ListaPoglavlja(
-      {super.key, required this.title, required this.poglavlja});
+      {super.key,
+      required this.title,
+      required this.poglavlja,
+      required this.controller});
 
   List<Poglavlje> dohvatiListuPoglavlja() {
     return poglavlja
         .map((item) => Poglavlje(
-              title: item[0],
-              poglavlja: poglavlja,
-            ))
+            title: item[0], poglavlja: poglavlja, controller: controller))
         .toList();
   }
 
@@ -187,9 +205,13 @@ class ListaPoglavlja extends StatelessWidget {
 class PregledPoglavlja extends StatefulWidget {
   final String title;
   final List poglavlja;
+  final SettingsController controller;
 
   const PregledPoglavlja(
-      {super.key, required this.title, required this.poglavlja});
+      {super.key,
+      required this.title,
+      required this.poglavlja,
+      required this.controller});
 
   @override
   State<PregledPoglavlja> createState() => _PregledPoglavljaState();
@@ -229,6 +251,10 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
                     child: SelectableHtml(
                       data: widget.poglavlja[index][1],
                       style: {
+                        "*": Style(
+                          fontSize:
+                              FontSize(widget.controller.fontSize),
+                        ),
                         // TODO: add verticalAlign: VerticalAlign.sup, once it is supported
                         "span": Style(fontSize: FontSize(80, Unit.percent))
                       },
