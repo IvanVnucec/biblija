@@ -59,7 +59,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-
   Future<List<Knjiga>> dohvatiListuKnjiga(SettingsController controller) {
     return DefaultAssetBundle.of(context)
         .loadString('assets/bible.json')
@@ -69,7 +68,7 @@ class HomePageState extends State<HomePage> {
           .map((item) => Knjiga(
                 title: item[0],
                 poglavlja: item[1],
-                controller: controller
+                controller: controller,
               ))
           .toList();
       return knjige;
@@ -242,6 +241,7 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
           },
           preloadPagesCount: 3,
           controller: controller,
+          physics: const CustomPageViewScrollPhysics(),
           itemCount: widget.poglavlja.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
@@ -252,8 +252,7 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
                       data: widget.poglavlja[index][1],
                       style: {
                         "*": Style(
-                          fontSize:
-                              FontSize(widget.controller.fontSize),
+                          fontSize: FontSize(widget.controller.fontSize),
                         ),
                         // TODO: add verticalAlign: VerticalAlign.sup, once it is supported
                         "span": Style(fontSize: FontSize(80, Unit.percent))
@@ -262,4 +261,21 @@ class _PregledPoglavljaState extends State<PregledPoglavlja> {
           }),
     );
   }
+}
+
+class CustomPageViewScrollPhysics extends ScrollPhysics {
+  const CustomPageViewScrollPhysics({ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomPageViewScrollPhysics(parent: buildParent(ancestor)!);
+  }
+
+  @override
+  SpringDescription get spring => const SpringDescription(
+        mass: 50,
+        stiffness: 100,
+        damping: 1.5,
+      );
 }
