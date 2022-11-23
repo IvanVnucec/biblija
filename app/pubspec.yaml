@@ -39,6 +39,7 @@ dependencies:
   flutter_html: ^3.0.0-alpha.5
   google_fonts: ^3.0.1
   flex_color_scheme: ^6.1.1
+  material_floating_search_bar: ^0.3.7
 
 dev_dependencies:
   flutter_test:

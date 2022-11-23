@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -6,8 +7,16 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Search"),
+      body: FloatingSearchAppBar(
+        alwaysOpened: true,
+        body: ListView.builder(
+          itemCount: 5,
+          itemBuilder: (_, index) => ListTile(
+            title: Text('Item $index'),
+          ),
+        ),
+        onQueryChanged: (query) {},
+        onSubmitted: (query) {},
       ),
     );
   }
