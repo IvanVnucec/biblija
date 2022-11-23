@@ -14,14 +14,13 @@ class ZavjetButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(
-        fontSize: 22,
+        fontSize: 25,
         fontWeight: FontWeight.bold,
         letterSpacing: 0.6,
       ),
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      minimumSize: const Size(170, 85),
+      padding: const EdgeInsets.all(20),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
     );
 
