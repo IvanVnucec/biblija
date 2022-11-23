@@ -33,7 +33,13 @@ class HomePage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 80),
-          const HomePageButtons(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              StariZavjetButton(),
+              NoviZavjetButton(),
+            ],
+          ),
           const SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

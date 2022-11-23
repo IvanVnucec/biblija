@@ -33,21 +33,6 @@ class HomePageSearchButton extends ElevatedRoundedButton {
         );
 }
 
-class HomePageButtons extends StatelessWidget {
-  const HomePageButtons({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        StariZavjetButton(),
-        NoviZavjetButton(),
-      ],
-    );
-  }
-}
-
 class StariZavjetButton extends ZavjetButton {
   StariZavjetButton({super.key})
       : super(
