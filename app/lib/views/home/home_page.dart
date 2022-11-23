@@ -1,4 +1,5 @@
-import 'package:bible/views/home/buttons.dart';
+import 'package:bible/components/elevated_rounded_button.dart';
+import 'package:bible/views/home/zavjet_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,18 +37,36 @@ class HomePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              StariZavjetButton(),
-              NoviZavjetButton(),
+              ZavjetButton(
+                heading: 'stari zavjet',
+                onPressed: () {},
+              ),
+              ZavjetButton(
+                heading: 'novi zavjet',
+                onPressed: () {},
+              ),
             ],
           ),
           const SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              HomePageSettingsButton(),
-              HomePageBookmarkButton(),
-              HomePageLastReadButton(),
-              HomePageSearchButton(),
+              ElevatedRoundedButton(
+                iconData: Icons.settings,
+                onPressed: () {},
+              ),
+              ElevatedRoundedButton(
+                iconData: Icons.bookmark,
+                onPressed: () {},
+              ),
+              ElevatedRoundedButton(
+                iconData: Icons.restore,
+                onPressed: () {},
+              ),
+              ElevatedRoundedButton(
+                iconData: Icons.search,
+                onPressed: () {},
+              ),
             ],
           ),
         ],
