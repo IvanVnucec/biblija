@@ -16,6 +16,7 @@ class ZavjetButton extends StatelessWidget {
       textStyle: const TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
+        letterSpacing: 0.6,
       ),
       padding: const EdgeInsets.symmetric(vertical: 20),
       minimumSize: const Size(170, 85),
