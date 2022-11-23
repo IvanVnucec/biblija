@@ -1,5 +1,8 @@
 import 'package:bible/components/elevated_rounded_button.dart';
+import 'package:bible/views/bookmarks/bookmarks_page.dart';
 import 'package:bible/views/home/zavjet_button.dart';
+import 'package:bible/views/search/search_page.dart';
+import 'package:bible/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -50,11 +53,23 @@ class HomePage extends StatelessWidget {
             children: [
               ElevatedRoundedButton(
                 iconData: Icons.settings,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsPage()),
+                  );
+                },
               ),
               ElevatedRoundedButton(
                 iconData: Icons.bookmark,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BookmarksPage()),
+                  );
+                },
               ),
               ElevatedRoundedButton(
                 iconData: Icons.restore,
@@ -62,7 +77,13 @@ class HomePage extends StatelessWidget {
               ),
               ElevatedRoundedButton(
                 iconData: Icons.search,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SearchPage()),
+                  );
+                },
               ),
             ],
           ),
