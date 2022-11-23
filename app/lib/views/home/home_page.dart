@@ -9,7 +9,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 237, 195, 103),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -20,7 +19,6 @@ class HomePage extends StatelessWidget {
                 "Biblija",
                 style: GoogleFonts.unifrakturCook(
                   fontSize: 120,
-                  color: const Color.fromRGBO(139, 26, 16, 1),
                 ),
               ),
               const Text(
@@ -28,7 +26,6 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontStyle: FontStyle.italic,
-                  color: Color.fromARGB(255, 40, 40, 40),
                 ),
               ),
             ],
@@ -38,11 +35,11 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ZavjetButton(
-                heading: 'stari zavjet',
+                heading: 'Stari zavjet',
                 onPressed: () {},
               ),
               ZavjetButton(
-                heading: 'novi zavjet',
+                heading: 'Novi zavjet',
                 onPressed: () {},
               ),
             ],

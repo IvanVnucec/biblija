@@ -17,7 +17,6 @@ class ZavjetButton extends StatelessWidget {
         fontSize: 22,
         fontWeight: FontWeight.bold,
       ),
-      backgroundColor: const Color.fromARGB(255, 173, 33, 20),
       padding: const EdgeInsets.symmetric(vertical: 20),
       minimumSize: const Size(170, 85),
       shape: const RoundedRectangleBorder(
@@ -28,7 +27,7 @@ class ZavjetButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: buttonStyle,
-      child: Text(heading.toUpperCase()),
+      child: Text(heading),
     );
   }
 }

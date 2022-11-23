@@ -15,7 +15,6 @@ class ElevatedRoundedButton extends StatelessWidget {
     final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       padding: const EdgeInsets.symmetric(vertical: 8),
       shape: const CircleBorder(),
-      backgroundColor: const Color.fromARGB(255, 67, 67, 67),
     );
 
     return Padding(
