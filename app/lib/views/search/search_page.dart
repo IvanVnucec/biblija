@@ -10,22 +10,22 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final controller = TextEditingController();
+  final _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(_printLatestValue);
+    _controller.addListener(_onChanged);
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  void _printLatestValue() {
-    print('Second text field: ${controller.text}');
+  void _onChanged() {
+    setState(() {});
   }
 
   @override
@@ -37,9 +37,7 @@ class _SearchPageState extends State<SearchPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: controller,
-                onChanged: (value) {},
-                onEditingComplete: () {},
+                controller: _controller,
                 autofocus: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -50,11 +48,11 @@ class _SearchPageState extends State<SearchPage> {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: 50,
-                itemBuilder: (BuildContext context, int index) {
+                itemCount: _controller.text.length,
+                itemBuilder: (context, index) {
                   return ResultsListItem(
-                    title: 'Ime poglavlja $index',
-                    content: 'Neki tekst ' * index,
+                    title: 'Ime poglavlja ${index + 1}',
+                    content: _controller.text * (index + 1),
                   );
                 },
               ),
