@@ -4,11 +4,11 @@ class ResultsListItem extends StatelessWidget {
   const ResultsListItem({
     super.key,
     required this.title,
-    required this.user,
+    required this.content,
   });
 
   final String title;
-  final String user;
+  final String content;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,9 @@ class ResultsListItem extends StatelessWidget {
         children: <Widget>[
           Expanded(
             flex: 3,
-            child: _VideoDescription(
+            child: _SearchResult(
               title: title,
-              user: user,
+              content: content,
             ),
           ),
         ],
@@ -30,14 +30,14 @@ class ResultsListItem extends StatelessWidget {
   }
 }
 
-class _VideoDescription extends StatelessWidget {
-  const _VideoDescription({
+class _SearchResult extends StatelessWidget {
+  const _SearchResult({
     required this.title,
-    required this.user,
+    required this.content,
   });
 
   final String title;
-  final String user;
+  final String content;
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +48,17 @@ class _VideoDescription extends StatelessWidget {
         children: <Widget>[
           Text(
             title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14.0,
+            style: TextStyle(
+              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize ?? 16.0,
+              fontWeight: FontWeight.bold,
             ),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           Text(
-            user,
-            style: const TextStyle(fontSize: 12.0),
+            content,
+            maxLines: 3,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

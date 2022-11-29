@@ -10,11 +10,10 @@ class SearchPage extends StatelessWidget {
     return FloatingSearchAppBar(
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-        itemExtent: 106.0,
         itemCount: 15,
         itemBuilder: (context, index) => const ResultsListItem(
           title: 'Jošua 15,8',
-          user: 'Odatle se preko doline Ben-Hinom s juga dizala k Jebusejskom obronku, to jest k Jeruzalemu. Potom se uspinjala na vrh gore koja prema zapadu gleda na dolinu Hinon i leži na sjevernom kraju doline Refaima.',
+          content: 'Odatle se preko doline Ben-Hinom s juga dizala k Jebusejskom obronku, to jest k Jeruzalemu. Potom se uspinjala na vrh gore koja prema zapadu gleda na dolinu Hinon i leži na sjevernom kraju doline Refaima.',
         ),
       ),
       onQueryChanged: (query) {},
