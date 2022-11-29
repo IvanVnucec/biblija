@@ -1,40 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 import 'results_list_item.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
-  Widget buildFloatingSearchBar(BuildContext context) {
-    return FloatingSearchAppBar(
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-        itemCount: 15,
-        itemBuilder: (context, index) => const ResultsListItem(
-          title: 'Jošua 15,8',
-          content: 'Odatle se preko doline Ben-Hinom s juga dizala k Jebusejskom obronku, to jest k Jeruzalemu. Potom se uspinjala na vrh gore koja prema zapadu gleda na dolinu Hinon i leži na sjevernom kraju doline Refaima.',
-        ),
-      ),
-      onQueryChanged: (query) {},
-      onSubmitted: (query) {},
-      alwaysOpened: true,
-      hint: 'Search...',
-      transitionDuration: const Duration(milliseconds: 300),
-      transitionCurve: Curves.easeInOut,
-      debounceDelay: const Duration(milliseconds: 500),
-    );
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  final controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(_printLatestValue);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void _printLatestValue() {
+    print('Second text field: ${controller.text}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          buildFloatingSearchBar(context),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: controller,
+                onChanged: (value) {},
+                onEditingComplete: () {},
+                autofocus: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Search...',
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: 50,
+                itemBuilder: (BuildContext context, int index) {
+                  return ResultsListItem(
+                    title: 'Ime poglavlja $index',
+                    content: 'Neki tekst ' * index,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
