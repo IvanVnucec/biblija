@@ -10,22 +10,28 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final _controller = TextEditingController();
+  var _searchResults = <ResultsListItem>[];
 
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(_onChanged);
+  Future<List<ResultsListItem>> _search(String query) {
+    return Future.delayed(
+      const Duration(seconds: 1),
+      () => List<ResultsListItem>.generate(
+          growable: false,
+          query.length,
+          (index) => ResultsListItem(
+                title: 'Ime poglavlja ${index + 1}',
+                content: query * (index + 1),
+              )),
+    );
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onChanged() {
-    setState(() {});
+  void _onChanged(String query) async {
+    final searchResults = await _search(query);
+    if (mounted) {
+      setState(() {
+        _searchResults = searchResults;
+      });
+    }
   }
 
   @override
@@ -37,7 +43,7 @@ class _SearchPageState extends State<SearchPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: _controller,
+                onChanged: _onChanged,
                 autofocus: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -48,12 +54,9 @@ class _SearchPageState extends State<SearchPage> {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: _controller.text.length,
+                itemCount: _searchResults.length,
                 itemBuilder: (context, index) {
-                  return ResultsListItem(
-                    title: 'Ime poglavlja ${index + 1}',
-                    content: _controller.text * (index + 1),
-                  );
+                  return _searchResults[index];
                 },
               ),
             ),
