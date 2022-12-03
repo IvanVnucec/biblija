@@ -1,4 +1,6 @@
 import 'package:bible/components/elevated_rounded_button.dart';
+import 'package:bible/models/bible/bible.dart';
+import 'package:bible/services/bible/load_bible.dart';
 import 'package:bible/views/bookmarks/bookmarks_page.dart';
 import 'package:bible/views/home/zavjet_button.dart';
 import 'package:bible/views/search/search_page.dart';
@@ -7,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final Future<Bible> bible = loadBible('assets/bible.json');
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +85,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SearchPage()),
+                        builder: (context) => SearchPage(bible: bible)),
                   );
                 },
               ),

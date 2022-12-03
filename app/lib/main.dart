@@ -43,7 +43,7 @@ class App extends StatelessWidget {
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
       ),
       themeMode: ThemeMode.system,
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }

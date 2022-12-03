@@ -1,11 +1,13 @@
-import 'package:bible/services/bible/load_bible.dart';
+import 'package:bible/models/bible/bible.dart';
 import 'package:bible/services/bible/search_bible.dart';
 import 'package:flutter/material.dart';
 
 import 'results_list_item.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final Future<Bible> bible;
+
+  const SearchPage({super.key, required this.bible});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -15,7 +17,7 @@ class _SearchPageState extends State<SearchPage> {
   var _searchResults = <ResultsListItem>[];
 
   Future<List<ResultsListItem>> _search(String query) {
-    return loadBible('assets/bible.json').then((bible) {
+    return widget.bible.then((bible) {
       final results = searchBible(bible, query);
 
       var retval = <ResultsListItem>[];
