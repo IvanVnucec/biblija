@@ -1,3 +1,5 @@
+import 'package:bible/services/bible/load_bible.dart';
+import 'package:bible/services/bible/search_bible.dart';
 import 'package:flutter/material.dart';
 
 import 'results_list_item.dart';
@@ -13,25 +15,33 @@ class _SearchPageState extends State<SearchPage> {
   var _searchResults = <ResultsListItem>[];
 
   Future<List<ResultsListItem>> _search(String query) {
-    return Future.delayed(
-      const Duration(seconds: 1),
-      () => List<ResultsListItem>.generate(
-          growable: false,
-          query.length,
-          (index) => ResultsListItem(
-                title: 'Ime poglavlja ${index + 1}',
-                content: query * (index + 1),
-              )),
-    );
+    return loadBible('assets/bible.json').then((bible) {
+      final results = searchBible(bible, query);
+
+      var retval = <ResultsListItem>[];
+      for (final r in results) {
+        for (final _ in r.matches) {
+          retval.add(
+            ResultsListItem(
+              title: '${r.book.name}, ${r.chapter.name}',
+              content: r.chapter.content,
+            ),
+          );
+        }
+      }
+
+      return Future.value(retval);
+    });
   }
 
   void _onChanged(String query) async {
-    final searchResults = await _search(query);
-    if (mounted) {
-      setState(() {
-        _searchResults = searchResults;
-      });
-    }
+    _search(query).then((searchResults) {
+      if (mounted) {
+        setState(() {
+          _searchResults = searchResults;
+        });
+      }
+    });
   }
 
   @override
