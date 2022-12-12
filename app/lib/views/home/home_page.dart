@@ -9,12 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
-  final Future<Bible> bible = loadBible('assets/bible.json');
+  late Future<Bible> bible;
 
   HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bible = loadBible(context, 'assets/bible.json');
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

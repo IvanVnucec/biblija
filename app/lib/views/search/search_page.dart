@@ -17,33 +17,36 @@ class _SearchPageState extends State<SearchPage> {
   var _searchResults = <ResultsListItem>[];
 
   Future<List<ResultsListItem>> _search(String query) {
-    return widget.bible.then((bible) {
-      final results = searchBible(bible, query);
-
-      var retval = <ResultsListItem>[];
-      for (final r in results) {
-        for (final _ in r.matches) {
-          retval.add(
-            ResultsListItem(
-              title: '${r.book.name}, ${r.chapter.name}',
-              content: r.chapter.content,
-            ),
-          );
+    return widget.bible.then(
+      (bible) {
+        final results = searchBible(bible, query);
+        var retval = <ResultsListItem>[];
+        for (final r in results) {
+          for (final _ in r.matches) {
+            retval.add(
+              ResultsListItem(
+                title: '${r.book.name}, ${r.chapter.name}',
+                content: r.chapter.content,
+              ),
+            );
+          }
         }
-      }
 
-      return Future.value(retval);
-    });
+        return retval;
+      },
+    );
   }
 
   void _onChanged(String query) async {
-    _search(query).then((searchResults) {
-      if (mounted) {
-        setState(() {
-          _searchResults = searchResults;
-        });
-      }
-    });
+    _search(query).then(
+      (searchResults) {
+        if (mounted) {
+          setState(() {
+            _searchResults = searchResults;
+          });
+        }
+      },
+    );
   }
 
   @override
