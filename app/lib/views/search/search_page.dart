@@ -20,24 +20,13 @@ class _SearchPageState extends State<SearchPage> {
   final _searchController = TextEditingController();
   final _searchFocusNode = FocusNode();
 
-  Future<List<SearchResultListItem>> _search(String query) {
-    return widget.bible.then(
-      (bible) {
-        final results = searchBible(bible, query);
-        var retval = <SearchResultListItem>[];
-        for (final r in results) {
-          retval.add(
-            SearchResultListItem(
-              title: '${r.book.name}, ${r.chapter.name}',
-              content: r.chapter.content,
-            ),
-          );
-        }
-
-        return retval;
-      },
-    );
-  }
+  Future<List<SearchResultListItem>> _search(String query) =>
+      widget.bible.then((bible) => searchBible(bible, query)
+          .map((r) => SearchResultListItem(
+                title: '${r.book.name}, ${r.chapter.name}',
+                content: r.chapter.content,
+              ))
+          .toList());
 
   void _onChanged(String query) async {
     _search(query).then(
