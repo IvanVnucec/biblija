@@ -19,27 +19,15 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 80),
-          Column(
-            children: [
-              Text(
-                "Biblija",
-                style: GoogleFonts.unifrakturCook(
-                  fontSize: 120,
-                ),
-              ),
-              const Text(
-                "Krščanske sadašnjosti",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-            ],
+          const Spacer(),
+          Text(
+            "Biblija",
+            style: GoogleFonts.unifrakturCook(
+              fontSize: 120,
+            ),
           ),
-          const SizedBox(height: 80),
+          const Spacer(flex: 2),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -53,7 +41,7 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 50),
+          const Spacer(flex: 2),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -93,6 +81,7 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
+          const Spacer(flex: 2),
         ],
       ),
     );
