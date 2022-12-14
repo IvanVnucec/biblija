@@ -26,14 +26,12 @@ class _SearchPageState extends State<SearchPage> {
         final results = searchBible(bible, query);
         var retval = <SearchResultListItem>[];
         for (final r in results) {
-          for (final _ in r.matches) {
-            retval.add(
-              SearchResultListItem(
-                title: '${r.book.name}, ${r.chapter.name}',
-                content: r.chapter.content,
-              ),
-            );
-          }
+          retval.add(
+            SearchResultListItem(
+              title: '${r.book.name}, ${r.chapter.name}',
+              content: r.chapter.content,
+            ),
+          );
         }
 
         return retval;
