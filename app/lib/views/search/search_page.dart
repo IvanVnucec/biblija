@@ -15,20 +15,20 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  var _searchResults = <ResultsListItem>[];
+  var _searchResults = <SearchResultListItem>[];
 
   final _searchController = TextEditingController();
   final _searchFocusNode = FocusNode();
 
-  Future<List<ResultsListItem>> _search(String query) {
+  Future<List<SearchResultListItem>> _search(String query) {
     return widget.bible.then(
       (bible) {
         final results = searchBible(bible, query);
-        var retval = <ResultsListItem>[];
+        var retval = <SearchResultListItem>[];
         for (final r in results) {
           for (final _ in r.matches) {
             retval.add(
-              ResultsListItem(
+              SearchResultListItem(
                 title: '${r.book.name}, ${r.chapter.name}',
                 content: r.chapter.content,
               ),
