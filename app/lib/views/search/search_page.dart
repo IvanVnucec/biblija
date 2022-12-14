@@ -3,7 +3,7 @@ import 'package:bible/services/bible/search_bible.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'results_list_item.dart';
+import 'search_results_list_item.dart';
 
 class SearchPage extends StatefulWidget {
   final Future<Bible> bible;
