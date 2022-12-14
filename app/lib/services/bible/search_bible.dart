@@ -6,11 +6,24 @@ List<SearchResult> searchBible(Bible bible, String query) {
     return [];
   }
 
+  String formatted(String text) => text.toLowerCase();
+
+  final formattedQuery = formatted(query);
+
   var results = <SearchResult>[];
   for (final book in bible.books) {
     for (final chapter in book.chapters) {
-      if (chapter.content.toLowerCase().contains(query.toLowerCase())) {
-        results.add(SearchResult(book, chapter));
+      final formattedChapter = formatted(chapter.content);
+
+      if (formattedChapter.contains(formattedQuery)) {
+        final first = formattedChapter.indexOf(formattedQuery);
+        final last = first + formattedQuery.length;
+
+        results.add(SearchResult(
+          book: book,
+          chapter: chapter,
+          match: SearchResultMatch(first: first, last: last),
+        ));
       }
     }
   }

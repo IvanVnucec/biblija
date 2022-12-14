@@ -1,14 +1,13 @@
+import 'package:bible/models/bible/search_result.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultListItem extends StatelessWidget {
   const SearchResultListItem({
     super.key,
-    required this.title,
-    required this.content,
+    required this.result,
   });
 
-  final String title;
-  final String content;
+  final SearchResult result;
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +15,15 @@ class SearchResultListItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          title,
+          result.chapter.name,
           style: TextStyle(
-            fontSize:
-                Theme.of(context).textTheme.labelLarge?.fontSize ??
-                    16.0,
+            fontSize: Theme.of(context).textTheme.labelLarge?.fontSize ?? 16.0,
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 4.0),
         Text(
-          content,
+          result.chapter.content,
           maxLines: 3,
           softWrap: true,
           overflow: TextOverflow.ellipsis,
