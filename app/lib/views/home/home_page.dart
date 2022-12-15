@@ -1,5 +1,4 @@
 import 'package:bible/components/elevated_rounded_button.dart';
-import 'package:bible/models/bible/bible.dart';
 import 'package:bible/services/bible/load_bible.dart';
 import 'package:bible/views/bookmarks/bookmarks_page.dart';
 import 'package:bible/views/home/zavjet_button.dart';
@@ -9,13 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
-  late Future<Bible> bible;
-
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    bible = loadBible(context, 'assets/bible.json');
+    final bible = loadBible(context, 'assets/bible.json');
 
     return Scaffold(
       body: Column(
