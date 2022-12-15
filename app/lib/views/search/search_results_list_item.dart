@@ -1,6 +1,8 @@
 import 'package:bible/models/bible/search_result.dart';
 import 'package:flutter/material.dart';
 
+import 'highlighted_text.dart';
+
 class SearchResultListItem extends StatelessWidget {
   const SearchResultListItem({
     super.key,
@@ -22,8 +24,10 @@ class SearchResultListItem extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4.0),
-        Text(
-          result.chapter.content,
+        HighlightedText(
+          text: result.chapter.content,
+          first: result.match.first,
+          last: result.match.last,
           maxLines: 3,
           softWrap: true,
           overflow: TextOverflow.ellipsis,
