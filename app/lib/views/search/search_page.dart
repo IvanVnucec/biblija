@@ -101,7 +101,12 @@ class _SearchPageState extends State<SearchPage> {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return _searchResults[index];
+                  return Column(
+                    children: <Widget>[
+                      _searchResults[index],
+                      const Divider(thickness: 1.0),
+                    ],
+                  );
                 },
                 childCount: _searchResults.length,
               ),
