@@ -57,62 +57,47 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => Navigator.pop(context),
-            ),
-            title: TextField(
-              controller: _searchController,
-              focusNode: _searchFocusNode,
-              autofocus: true,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.search,
-              decoration: InputDecoration(
-                hintText: 'Search...',
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                focusedErrorBorder: InputBorder.none,
-                fillColor: Theme.of(context).appBarTheme.backgroundColor,
-              ),
-              onChanged: _onChanged,
-            ),
-            floating: false,
-            pinned: true,
-            snap: false,
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  _searchController.clear();
-                  _searchFocusNode.requestFocus();
-                  SystemChannels.textInput.invokeMethod('TextInput.show');
-                },
-              ),
-            ],
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: TextField(
+          controller: _searchController,
+          focusNode: _searchFocusNode,
+          autofocus: true,
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.search,
+          decoration: InputDecoration(
+            hintText: 'Search...',
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            focusedErrorBorder: InputBorder.none,
+            fillColor: Theme.of(context).appBarTheme.backgroundColor,
           ),
-          SliverPadding(
-            padding: const EdgeInsets.all(8.0),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Column(
-                    children: <Widget>[
-                      _searchResults[index],
-                      const Divider(thickness: 1.0),
-                    ],
-                  );
-                },
-                childCount: _searchResults.length,
-              ),
-            ),
+          onChanged: _onChanged,
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.clear),
+            onPressed: () {
+              _searchController.clear();
+              _searchFocusNode.requestFocus();
+              SystemChannels.textInput.invokeMethod('TextInput.show');
+            },
           ),
         ],
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(8.0),
+        itemCount: _searchResults.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _searchResults[index];
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
     );
   }
