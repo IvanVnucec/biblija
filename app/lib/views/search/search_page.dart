@@ -39,22 +39,6 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    _searchFocusNode.dispose();
-    _searchController.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -94,9 +78,7 @@ class _SearchPageState extends State<SearchPage> {
       body: ListView.separated(
         padding: const EdgeInsets.all(8.0),
         itemCount: _searchResults.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _searchResults[index];
-        },
+        itemBuilder: (BuildContext context, int index) => _searchResults[index],
         separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
     );
